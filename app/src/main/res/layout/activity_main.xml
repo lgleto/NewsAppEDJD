@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.luis_.newsapp.MainActivity">
+
+  <Button
+      android:id="@+id/buttonPublico"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Público"/>
+    <Button
+        android:id="@+id/buttonObservador"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Observador"/>
+
+    <Button
+        android:id="@+id/buttonRecord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Record"/>
+
+</LinearLayout>
