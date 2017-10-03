@@ -7,11 +7,12 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    public static final String TAG = "newsapp";
+
     Button buttonPublico;
     Button buttonObservador;
     Button buttonRecord;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 url = "https://feeds.feedburner.com/PublicoRSS";
                 title = "Público";
                 Intent intent = new Intent(this, NewsListActivity.class);
-                intent.putExtra("extra_title", title);
-                intent.putExtra("extra_url", url);
+                intent.putExtra(NewsListActivity.EXTRA_TITLE, title);
+                intent.putExtra(NewsListActivity.EXTRA_URL, url);
                 startActivity(intent);
                 break;
             case R.id.buttonObservador:
