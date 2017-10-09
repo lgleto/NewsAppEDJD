@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import java.util.List;
+
 
 public class NewsListActivity extends AppCompatActivity {
 
@@ -25,8 +27,12 @@ public class NewsListActivity extends AppCompatActivity {
         httpFetchNews.execute(urlString);
         httpFetchNews.setOnHttpResponseEvent(new HttpListener() {
             @Override
-            public void onHttpResponseEvent(String s) {
-                textViewTeste.setText(s);
+            public void onHttpResponseEvent(List<Post> postList) {
+                String allNewsStr="";
+                for (Post post:postList){
+                    allNewsStr+=post.toString()+"\n";
+                }
+                textViewTeste.setText(allNewsStr);
             }
         });
 
