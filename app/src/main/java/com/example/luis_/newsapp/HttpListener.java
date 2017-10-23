@@ -1,5 +1,7 @@
 package com.example.luis_.newsapp;
 
+import com.example.luis_.newsapp.model.Post;
+
 import java.util.List;
 
 /**

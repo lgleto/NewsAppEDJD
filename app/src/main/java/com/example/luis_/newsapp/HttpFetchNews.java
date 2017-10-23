@@ -1,17 +1,16 @@
 package com.example.luis_.newsapp;
 
 import android.os.AsyncTask;
-import android.util.Log;
+
+import com.example.luis_.newsapp.model.Post;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -78,7 +77,6 @@ public class HttpFetchNews extends AsyncTask<String,Void,List<Post>> {
                     imageUrl = nodeImage.item(0).getAttributes().getNamedItem("url").getTextContent();
                     imageUrl="http:"+imageUrl;
                 }
-
 
                 Post post=new Post();
                 post.setTitle(title);

@@ -1,18 +1,21 @@
-package com.example.luis_.newsapp;
+package com.example.luis_.newsapp.model;
 
 import java.util.Date;
+
+import io.realm.RealmObject;
 
 /**
  * Created by lourenco on 09/10/17.
  */
 
-public class Post {
+public class Post  extends RealmObject {
 
     String title;
     String url;
     Date date;
     String imageLink;
     String description;
+    NewsPaper newspaper;
 
     public Post() {
     }
@@ -23,6 +26,13 @@ public class Post {
         this.date = date;
         this.imageLink = imageLink;
         this.description = description;
+    }
+    public NewsPaper getNewspaper() {
+        return newspaper;
+    }
+
+    public void setNewspaper(NewsPaper newspaper) {
+        this.newspaper = newspaper;
     }
 
     public String getTitle() {
