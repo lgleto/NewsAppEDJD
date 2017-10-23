@@ -30,20 +30,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         String url;
         String title;
+        Intent intent = new Intent(this, NewsListActivity.class);
         switch (view.getId()) {
             case R.id.buttonPublico:
                 url = "https://feeds.feedburner.com/PublicoRSS";
                 title = "Público";
-                Intent intent = new Intent(this, NewsListActivity.class);
                 intent.putExtra(NewsListActivity.EXTRA_TITLE, title);
                 intent.putExtra(NewsListActivity.EXTRA_URL, url);
-                startActivity(intent);
                 break;
             case R.id.buttonObservador:
                 break;
             case R.id.buttonRecord:
+                url = "http://www.record.pt/rss.aspx";
+                title = "Record";
+                intent.putExtra(NewsListActivity.EXTRA_TITLE, title);
+                intent.putExtra(NewsListActivity.EXTRA_URL, url);
                 break;
         }
+
+        startActivity(intent);
     }
 
 

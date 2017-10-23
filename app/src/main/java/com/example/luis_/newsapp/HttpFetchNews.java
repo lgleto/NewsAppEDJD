@@ -70,9 +70,20 @@ public class HttpFetchNews extends AsyncTask<String,Void,List<Post>> {
                 String title=nodeTitle.item(0).getTextContent();
                 NodeList nodeLink=element.getElementsByTagName("link");
                 String link=nodeLink.item(0).getTextContent();
+
+                NodeList nodeImage=element.getElementsByTagName("enclosure");
+                String imageUrl="";
+                if(nodeImage.item(0)!=null)
+                if (nodeImage.item(0).getAttributes().getLength()>0) {
+                    imageUrl = nodeImage.item(0).getAttributes().getNamedItem("url").getTextContent();
+                    imageUrl="http:"+imageUrl;
+                }
+
+
                 Post post=new Post();
                 post.setTitle(title);
                 post.setUrl(link);
+                post.setImageLink(imageUrl);
                 postList.add(post);
             }
 

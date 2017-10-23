@@ -3,6 +3,10 @@ package com.example.luis_.newsapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,12 +83,29 @@ public class NewsListActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             if (view == null)
                 view = layoutInflater.inflate(R.layout.row_post,null);
 
             TextView textViewTitle = (TextView)view.findViewById(R.id.textViewPostTilte);
             textViewTitle.setText(posts.get(i).getTitle());
+            final ImageView imageView=(ImageView)view.findViewById(R.id.imageView);
+
+            new AsyncTask<String,Void,Bitmap>(){
+
+                @Override
+                protected Bitmap doInBackground(String... strings) {
+
+                    return getBitmapFromURL(posts.get(i).getImageLink());
+                }
+
+                @Override
+                protected void onPostExecute(Bitmap bm) {
+                    super.onPostExecute(bm);
+                    imageView.setImageBitmap(bm);
+                }
+            }.execute(null,null,null);
+
 
             view.setTag(new Integer(i));
             view.setOnClickListener(this);
@@ -100,6 +126,22 @@ public class NewsListActivity extends AppCompatActivity {
             startActivity(intent);
 
 
+        }
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            e.printStackTrace();
+            return null;
         }
     }
 }
