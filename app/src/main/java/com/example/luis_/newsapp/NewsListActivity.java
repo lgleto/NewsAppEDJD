@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.luis_.newsapp.model.NewsPaper;
 import com.example.luis_.newsapp.model.Post;
 
 import java.io.IOException;
@@ -25,6 +26,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 public class NewsListActivity extends AppCompatActivity {
@@ -35,15 +39,21 @@ public class NewsListActivity extends AppCompatActivity {
     ListView listViewPosts;
     PostsAdapter adapter;
 
-    List<Post> posts=new ArrayList<>(); //model
+    RealmResults<Post> posts; //model
+    NewsPaper newsPaper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_list);
         String title = getIntent().getStringExtra(EXTRA_TITLE);
-        String urlString = getIntent().getStringExtra(EXTRA_URL);
+        final String urlString = getIntent().getStringExtra(EXTRA_URL);
         setTitle(title);
+
+        // Get a Realm instance for this thread
+        final Realm realm = Realm.getDefaultInstance();
+        posts = realm.where(Post.class).equalTo("newspaper.url",urlString).findAll();
+        newsPaper = realm.where(NewsPaper.class).equalTo("url",urlString).findAll().first();
 
         listViewPosts=(ListView)findViewById(R.id.listViewPosts);
         adapter=new PostsAdapter();
@@ -54,7 +64,12 @@ public class NewsListActivity extends AppCompatActivity {
         httpFetchNews.setOnHttpResponseEvent(new HttpListener() {
             @Override
             public void onHttpResponseEvent(List<Post> postList) {
-               posts=postList;
+                for (Post post:postList){
+                    //alterado fora da aula
+                    Post.add(post,newsPaper,realm);
+                }
+                //alterado fora da aula
+                posts = realm.where(Post.class).equalTo("newspaper.url",urlString).findAll();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -91,13 +106,13 @@ public class NewsListActivity extends AppCompatActivity {
             TextView textViewTitle = (TextView)view.findViewById(R.id.textViewPostTilte);
             textViewTitle.setText(posts.get(i).getTitle());
             final ImageView imageView=(ImageView)view.findViewById(R.id.imageView);
-
+            final String urlImage= posts.get(i).getImageLink();
             new AsyncTask<String,Void,Bitmap>(){
 
                 @Override
                 protected Bitmap doInBackground(String... strings) {
 
-                    return getBitmapFromURL(posts.get(i).getImageLink());
+                    return Utils.getBitmapFromURL(urlImage);
                 }
 
                 @Override
@@ -130,19 +145,5 @@ public class NewsListActivity extends AppCompatActivity {
         }
     }
 
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            // Log exception
-            e.printStackTrace();
-            return null;
-        }
-    }
+
 }
