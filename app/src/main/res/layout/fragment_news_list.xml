@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.luis_.newsapp.WebViewActivity">
+    android:orientation="vertical"
+    tools:context="com.example.luis_.newsapp.NewsListFragment">
 
-    <WebView
-        android:id="@+id/webViewPost"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+   <ListView
+       android:id="@+id/listViewPosts"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+    />
 
 </LinearLayout>

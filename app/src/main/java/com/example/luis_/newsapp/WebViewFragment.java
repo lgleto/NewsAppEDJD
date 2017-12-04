@@ -5,11 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class WebViewActivity extends AppCompatActivity {
+public class WebViewFragment extends AppCompatActivity {
 
     WebView webView;
 
@@ -19,12 +18,12 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web_view);
+        setContentView(R.layout.fragment_web_view);
 
         webView=(WebView)findViewById(R.id.webViewPost);
 
-        title=getIntent().getStringExtra(NewsListActivity.EXTRA_TITLE);
-        urlStr=getIntent().getStringExtra(NewsListActivity.EXTRA_URL);
+        title=getIntent().getStringExtra(NewsListFragment.EXTRA_TITLE);
+        urlStr=getIntent().getStringExtra(NewsListFragment.EXTRA_URL);
         setTitle(title);
 
         webView.getSettings().setJavaScriptEnabled(true);
